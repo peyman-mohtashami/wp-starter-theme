@@ -15,7 +15,6 @@ Cyan='\033[0;36m'
 LightCyan='\033[1;36m'
 LightGray='\033[0;37m'
 White='\033[1;37m'
-
 NC='\033[0m' # No Color
 BOLD="\033[1m"
 
@@ -25,15 +24,6 @@ if [ -z "$projectUri" ]; then
   echo -e "${Red}Project URL is required.${NC}"
   exit 2
 fi
-
-# echo "Type project url (e.g. git or yourdomain), followed by [ENTER]:"
-# read themeUri
-# echo "Type git repository url (e.g. https://github/username/project-name.git), followed by [ENTER]:"
-# read gitRepoUri
-# echo "Type last translator (e.g. Last Translator Name <last-translator@email.com>), followed by [ENTER]:"
-# read lastTranslator
-# echo "Type translator team (e.g. Team Name <translator-team@email.com>), followed by [ENTER]:"
-# read team
 
 echo -e "${Purple}Copying Gulp files...${NC}"
 cp -r ./src/. ../
@@ -80,7 +70,7 @@ mkdir vendor
 mv navigation.js ./vendor/navigation.js 
 mv skip-link-focus-fix.js ./vendor/skip-link-focus-fix.js 
 cd ..
-cd starter
+cd wp-theme-starter
 
 read -p "$(echo -e $Cyan"Do you want to copy sass folder? Enter [y/n], followed by [ENTER]: "$NC)" copySassFolder
 if [ "$copySassFolder" == "y" ]; then
