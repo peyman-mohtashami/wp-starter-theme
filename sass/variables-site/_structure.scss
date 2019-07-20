@@ -1,0 +1,61 @@
+/* #region Query vars */
+$query__mobile: 600px;
+$query__tablet: 900px;
+$query__small: 1200px;
+$query__medium: 1800px;
+$query__large: 2400px;
+$query__xlarge: 3000px;
+
+$media_query_strings: 0, $query__mobile, $query__tablet, $query__small,
+	$query__medium, $query__large, $query__xlarge;
+/* #endregion */
+
+// **--------------------
+// ???
+// **--------------------
+// $phi: 1.618;
+
+$base_font_size: 16;
+$px: (1 / $base_font_size) * 1rem;
+
+// Post and widget column settings
+// $readable_width: 40rem;
+// $default_gutter: $phi * 1rem;
+// 0.3 means sidebar will be 30% width
+// $small_col: 0.3;
+
+// DEFAULT _S "STRUCTURE" VARS
+// $size__site-main: 100%;
+// $size__site-sidebar: percentage($small_col);
+// /end
+
+// Padding settings
+// $default_h_padding: $phi * $phi * $phi * 1rem;
+// $default_v_padding: $default_h_padding;
+
+// Posts and widgets horizontal padding
+// $post_l_padding: $default_h_padding;
+// $post_r_padding: $post_l_padding;
+// $widget_l_padding: $default_h_padding / $phi;
+// $widget_r_padding: $widget_l_padding;
+
+// Posts and widgets vertical padding
+// $post_t_padding: $default_h_padding / $phi;
+// $post_b_padding: $post_t_padding;
+// $widget_t_padding: $default_h_padding / $phi;
+// $widget_b_padding: $widget_t_padding;
+
+// @function total_site_width() {
+// 	// Figure out how many overall rems wide the posts should be, allowing for a readability optimized width on text plus left and right padding
+// 	$total_post_width_rem: $readable_width + $post_l_padding + $post_r_padding;
+
+// 	// Figure out how many rems wide the widgets should be in order to have a golden ratio relationship with the posts
+// 	$sidebar_width_rem: (
+// 			($total_post_width_rem / (1-$small_col)) + $widget_l_padding +
+// 				$widget_r_padding
+// 		) * $small_col;
+
+// 	// Add the two together in order to determine how many rems wide the total site wrapper should be
+// 	@return $total_post_width_rem + $sidebar_width_rem + $default_gutter;
+// 	// @return $total_post_width_rem;
+// }

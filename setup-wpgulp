@@ -1,0 +1,133 @@
+#!/bin/bash
+Black='\033[0;30m'
+DarkGray='\033[1;30m'
+Red='\033[0;31m'
+LightRed='\033[1;31m'
+Green='\033[0;32m'
+LightGreen='\033[1;32m'
+Orange='\033[0;33m'
+Yellow='\033[1;33m'
+Blue='\033[0;34m'
+LightBlue='\033[1;34m'
+Purple='\033[0;35m'
+LightPurple='\033[1;35m'
+Cyan='\033[0;36m'
+LightCyan='\033[1;36m'
+LightGray='\033[0;37m'
+White='\033[1;37m'
+
+NC='\033[0m' # No Color
+BOLD="\033[1m"
+
+read -p "$(echo -e $Cyan"Type project url (e.g. localhost/project-name), followed by [ENTER]: "$NC)" projectUri
+
+if [ -z "$projectUri" ]; then
+  echo -e "${Red}Project URL is required.${NC}"
+  exit 2
+fi
+
+# echo "Type project url (e.g. git or yourdomain), followed by [ENTER]:"
+# read themeUri
+# echo "Type git repository url (e.g. https://github/username/project-name.git), followed by [ENTER]:"
+# read gitRepoUri
+# echo "Type last translator (e.g. Last Translator Name <last-translator@email.com>), followed by [ENTER]:"
+# read lastTranslator
+# echo "Type translator team (e.g. Team Name <translator-team@email.com>), followed by [ENTER]:"
+# read team
+
+echo -e "${Purple}Copying Gulp files...${NC}"
+cp -r ./src/. ../
+
+if [ -f "../sass/style.scss" ]; then
+  echo -e "${Purple}Modifying Gulp files...${NC}"
+  file="../sass/style.scss"
+  themeName="$(sed -nr '/Theme Name: / s/.*Theme Name: ([^"]+).*/\1/p' $file)"
+  themeDescription="$(sed -nr '/Description: / s/.*Description: ([^"]+).*/\1/p' $file)"
+  themeVersion="$(sed -nr '/Version: / s/.*Version: ([^"]+).*/\1/p' $file)"
+  themeAuthor="$(sed -nr '/Author: / s/.*Author: ([^"]+).*/\1/p' $file)"
+  themeAuthorUri="$(sed -nr '/Author URI: / s/.*Author URI: ([^"]+).*/\1/p' $file)"
+  themeLicense="$(sed -nr '/License: / s/.*License: ([^"]+).*/\1/p' $file)"
+  themeTextDomain="$(sed -nr '/Text Domain: / s/.*Text Domain: ([^"]+).*/\1/p' $file)"
+
+  sed -i '/"name": "starter",/ s/starter/'"$themeTextDomain"'/' ../package.json
+  sed -i '/"description": "starter-description",/ s/starter-description/'"$themeDescription"'/' ../package.json
+  sed -i '/"version": "1.0.0",/ s/1.0.0/'"$themeVersion"'/' ../package.json
+  sed -i '/"author": "firstname-lastname",/ s/firstname-lastname/'"$themeAuthor ${themeAuthorUri//\//\\/}"'/' ../package.json
+  sed -i '/"license": "GNU",/ s/GNU/'"$themeLicense"'/' ../package.json
+
+  sed -i '/projectURL: "path-to-project-url",/ s/path-to-project-url/'"${projectUri//\//\\/}"'/' ../wpgulp.config.js
+  sed -i '/textDomain: "starter",/ s/starter/'"$themeTextDomain"'/' ../wpgulp.config.js
+  sed -i '/translationFile: "starter.pot",/ s/starter/'"$themeTextDomain"'/' ../wpgulp.config.js
+  sed -i '/packageName: "starter",/ s/starter/'"$themeTextDomain"'/' ../wpgulp.config.js
+
+  # modify functions.php
+  echo -e "${Purple}Modifying functions.php...${NC}"
+  themeTextDomain_=$(echo "$themeTextDomain" | sed 's,-,_,g')
+  sed -i 's/starter-theme/'"$themeTextDomain"'/g' ../functions.php
+  sed -i 's/starter_theme/'"$themeTextDomain_"'/g' ../functions.php
+  sed -i 's/Starter_Theme/'"$themeName"'/g' ../functions.php
+
+else
+  echo -e "${Red}../sass/style.scss does not exist!${NC}"
+  exit 2
+fi
+
+echo -e "${Purple}Modifying js folder structure...${NC}"
+cd ..
+cd js
+mkdir custom 
+mkdir vendor
+mv navigation.js ./vendor/navigation.js 
+mv skip-link-focus-fix.js ./vendor/skip-link-focus-fix.js 
+cd ..
+cd starter
+
+read -p "$(echo -e $Cyan"Do you want to copy sass folder? Enter [y/n], followed by [ENTER]: "$NC)" copySassFolder
+if [ "$copySassFolder" == "y" ]; then
+  echo -e "${Purple}Copying sass folder...${NC}"
+  # copy sass folder from downloaded git repo to the root of project
+  # rename it to "sass-new"
+  cp -r ./sass/ ../sass-new/
+
+  # modify new style.scss parameters according to original style.scss
+  if [ -f "../sass/style.scss" ]; then
+      echo -e "${Purple}Modify style.scss...${NC}"
+
+      file="../sass/style.scss"
+      # get data from original style.scss
+      themeName="$(sed -nr '/Theme Name: / s/.*Theme Name: ([^"]+).*/\1/p' $file)"
+      themeAuthor="$(sed -nr '/Author: / s/.*Author: ([^"]+).*/\1/p' $file)"
+      themeAuthorUri="$(sed -nr '/Author URI: / s/.*Author URI: ([^"]+).*/\1/p' $file)"
+      themeDescription="$(sed -nr '/Description: / s/.*Description: ([^"]+).*/\1/p' $file)"
+      themeVersion="$(sed -nr '/Version: / s/.*Version: ([^"]+).*/\1/p' $file)"
+      themeTextDomain="$(sed -nr '/Text Domain: / s/.*Text Domain: ([^"]+).*/\1/p' $file)"
+    
+      # modify new style.scss
+      sed -i '/Theme Name: starter/ s/starter/'"$themeName"'/' ../sass-new/style.scss
+      sed -i '/Author: firstname-lastname/ s/firstname-lastname/'"$themeAuthor"'/' ../sass-new/style.scss
+      sed -i '/Author URI: author-uri/ s/author-uri/'"${themeAuthorUri//\//\\/}"'/' ../sass-new/style.scss
+      sed -i '/Description: starter-description/ s/starter-description/'"$themeDescription"'/' ../sass-new/style.scss
+      sed -i '/Version: 1.0.0/ s/1.0.0/'"$themeVersion"'/' ../sass-new/style.scss
+      sed -i '/Text Domain: starter/ s/starter/'"$themeTextDomain"'/' ../sass-new/style.scss
+      sed -i '/starter is based on Underscores/ s/starter/'"$themeName"'/' ../sass-new/style.scss
+  else
+    echo "${Red}../sass/style.scss does not exist!${NC}"
+    exit 2
+  fi
+
+  #delete original sass folder
+  rm -r ../sass
+
+  # rename sass-new and rtl-sass-new
+  mv ../sass-new ../sass
+
+else
+  exit 2
+fi
+
+echo -e "${Purple}Install dependencies...${NC}"
+cd ..
+npm install
+echo -e "${Purple}Git init...${NC}"
+git init
+npm start
