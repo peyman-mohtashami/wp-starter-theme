@@ -1,8 +1,8 @@
 # NPM #
 ##########
 # Ignore all directories called starter in current folder and any subfolders.
-starter/
-/starter/
+wp-starter-theme/
+/wp-starter-theme/
 
 # Ignore all directories called node_modules in current folder and any subfolders.
 node_modules/
