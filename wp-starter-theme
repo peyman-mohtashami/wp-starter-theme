@@ -45,10 +45,10 @@ if [ -f "../sass/style.scss" ]; then
   sed -i '/"author": "firstname-lastname",/ s/firstname-lastname/'"$themeAuthor ${themeAuthorUri//\//\\/}"'/' ../package.json
   sed -i '/"license": "GNU",/ s/GNU/'"$themeLicense"'/' ../package.json
 
-  sed -i '/projectURL: "path-to-project-url",/ s/path-to-project-url/'"${projectUri//\//\\/}"'/' ../wpgulp.config.js
-  sed -i '/textDomain: "starter",/ s/starter/'"$themeTextDomain"'/' ../wpgulp.config.js
-  sed -i '/translationFile: "starter.pot",/ s/starter/'"$themeTextDomain"'/' ../wpgulp.config.js
-  sed -i '/packageName: "starter",/ s/starter/'"$themeTextDomain"'/' ../wpgulp.config.js
+  sed -i '/projectURL:/ s/path-to-project-url/'"${projectUri//\//\\/}"'/' ../wpgulp.config.js
+  sed -i '/textDomain:/ s/starter/'"$themeTextDomain"'/' ../wpgulp.config.js
+  sed -i '/translationFile:/ s/starter/'"$themeTextDomain"'/' ../wpgulp.config.js
+  sed -i '/packageName:/ s/starter/'"$themeTextDomain"'/' ../wpgulp.config.js
 
   # modify functions.php
   echo -e "${Purple}Modifying functions.php...${NC}"
