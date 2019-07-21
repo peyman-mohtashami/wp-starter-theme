@@ -70,7 +70,7 @@ mkdir vendor
 mv navigation.js ./vendor/navigation.js 
 mv skip-link-focus-fix.js ./vendor/skip-link-focus-fix.js 
 cd ..
-cd wp-theme-starter
+cd wp-starter-starter
 
 read -p "$(echo -e $Cyan"Do you want to copy sass folder? Enter [y/n], followed by [ENTER]: "$NC)" copySassFolder
 if [ "$copySassFolder" == "y" ]; then

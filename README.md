@@ -15,9 +15,9 @@ Merge WPGulp with underscores starter theme
 -   In the root of your theme:
 
 ```bash
-git clone https://github.com/peyman-mohtashami/wp-theme-starter.git
-cd wp-theme-starter
-bash setup-wpgulp
+git clone https://github.com/peyman-mohtashami/wp-starter-theme.git
+cd wp-starter-theme
+bash wp-starter-theme
 ```
 
 ## License
