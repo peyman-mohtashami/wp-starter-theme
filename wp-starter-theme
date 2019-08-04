@@ -111,8 +111,6 @@ if [ "$copySassFolder" == "y" ]; then
   # rename sass-new and rtl-sass-new
   mv ../sass-new ../sass
 
-else
-  exit 2
 fi
 
 echo -e "${Purple}Install dependencies...${NC}"
