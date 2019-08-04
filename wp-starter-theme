@@ -26,7 +26,22 @@ if [ -z "$projectUri" ]; then
 fi
 
 echo -e "${Purple}Copying Gulp files...${NC}"
-cp -r ./src/. ../
+cp ./src/.editorconfig ../
+cp ./src/.eslintignore ../
+cp ./src/.eslintrc.js ../
+cp ./src/.gitignore ../
+cp ./src/LICENSE ../
+cp ./src/README.md ../
+cp ./src/gulpfile.babel.js ../
+cp ./src/package.json ../
+cp ./src/readme.txt ../
+cp ./src/wpgulp.config.js ../
+
+
+read -p "$(echo -e $Cyan"Do you want to copy functions.php? Enter [y/n], followed by [ENTER]: "$NC)" copyFunctions
+if [ "$copyFunctions" == "y" ]; then
+  cp ./src/functions.php ../
+fi
 
 if [ -f "../sass/style.scss" ]; then
   echo -e "${Purple}Modifying Gulp files...${NC}"
@@ -50,12 +65,14 @@ if [ -f "../sass/style.scss" ]; then
   sed -i '/translationFile:/ s/starter/'"$themeTextDomain"'/' ../wpgulp.config.js
   sed -i '/packageName:/ s/starter/'"$themeTextDomain"'/' ../wpgulp.config.js
 
-  # modify functions.php
-  echo -e "${Purple}Modifying functions.php...${NC}"
-  themeTextDomain_=$(echo "$themeTextDomain" | sed 's,-,_,g')
-  sed -i 's/starter-theme/'"$themeTextDomain"'/g' ../functions.php
-  sed -i 's/starter_theme/'"$themeTextDomain_"'/g' ../functions.php
-  sed -i 's/Starter_Theme/'"$themeName"'/g' ../functions.php
+  if [ "$copyFunctions" == "y" ]; then
+    # modify functions.php
+    echo -e "${Purple}Modifying functions.php...${NC}"
+    themeTextDomain_=$(echo "$themeTextDomain" | sed 's,-,_,g')
+    sed -i 's/starter-theme/'"$themeTextDomain"'/g' ../functions.php
+    sed -i 's/starter_theme/'"$themeTextDomain_"'/g' ../functions.php
+    sed -i 's/Starter_Theme/'"$themeName"'/g' ../functions.php
+  fi
 
 else
   echo -e "${Red}../sass/style.scss does not exist!${NC}"
